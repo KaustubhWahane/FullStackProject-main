@@ -5,6 +5,7 @@ import Lunch from './RestaurantListing/Lunch/Lunch';
 import { restaurantData } from './RestaurantListing/Breakfast/Data';
 import { restaurantLunch } from './RestaurantListing/Lunch/Data';
 import LoaderComponent from './LoaderComponent';
+import axios from 'axios';
 
 function Home() {
   const [mealData, setMealData] = useState([]);
@@ -13,9 +14,13 @@ function Home() {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (item) => {
+    console.log('Add clicked:', item);
     setCartItems([...cartItems, item]);
   };
 
+  useEffect(() => {
+    console.log('Cart updated:', cartItems);
+  }, [cartItems]);
 
   async function fetchData() {
     try {
@@ -40,14 +45,38 @@ function Home() {
     }
   }
 
+  const aggregateCartItems = (cartItems) => {
+    return cartItems.reduce((acc, item) => {
+      const existing = acc.find(i => i.idMeal === item.idMeal);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        acc.push({ ...item, quantity: 1 });
+      }
+      return acc;
+    }, []);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const aggregatedItems = aggregateCartItems(cartItems);
+
+      await axios.post('http://localhost:5000/api/order', { items: aggregatedItems });
+
+      alert('Order placed successfully!');
+      setCartItems([]); // Clear cart after successful order
+    } catch (err) {
+      console.error('Order submission error:', err);
+      alert('Failed to place order');
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
 
   if (loading) {
-    return (
-    <LoaderComponent/>
-    );
+    return <LoaderComponent />;
   }
 
   if (error) {
@@ -71,19 +100,23 @@ function Home() {
         <div className="text-creamyVanilla text-center my-8">
           <h2 className="text-2xl font-bold mb-4">Your Cart Items:</h2>
           <ul>
-            {Object.entries(cartItems.reduce((acc, item) => {
-              if (!acc[item.idMeal]) {
-                acc[item.idMeal] = { ...item, quantity: 1 };
-              } else {
-                acc[item.idMeal].quantity++;
-              }
-              return acc;
-            }, {})).map(([key, value], index) => (
-              <li key={index}>
-                {value.quantity}x {value.strMeal}
-              </li>
-            ))}
+            {aggregateCartItems(cartItems).length === 0 ? (
+              <li>No items added yet.</li>
+            ) : (
+              aggregateCartItems(cartItems).map(item => (
+                <li key={item.idMeal}>
+                  {item.strMeal} x {item.quantity}
+                </li>
+              ))
+            )}
           </ul>
+          <button
+            onClick={handleSubmit}
+            disabled={cartItems.length === 0}
+            className="mt-4 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded disabled:opacity-50"
+          >
+            Submit Order
+          </button>
         </div>
         <div className="flex flex-wrap justify-around items-center">
           {mealData?.map((meal) => (
@@ -93,7 +126,10 @@ function Home() {
               </div>
               <div className="mt-2 font-bold text-creamyVanilla">{meal?.strMeal}</div>
               <div className="text-creamyVanilla">{meal?.strCategory}</div>
-              <button className="mt-2 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded" onClick={() => addToCart(meal)}>
+              <button
+                className="mt-2 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded"
+                onClick={() => addToCart(meal)}
+              >
                 Add
               </button>
             </div>
@@ -102,7 +138,9 @@ function Home() {
       </div>
 
       {/* Render Breakfasts */}
-      <h1 className="bg-richChocolate font-pacifico text-creamyVanilla text-center text-custom text-4xl p-3">Grab your Breakfast!</h1>
+      <h1 className="bg-richChocolate font-pacifico text-creamyVanilla text-center text-custom text-4xl p-3">
+        Grab your Breakfast!
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
         {restaurantData?.map((data, index) => (
           <Breakfast key={index} {...data} />
@@ -110,7 +148,9 @@ function Home() {
       </div>
 
       {/* Render Lunch */}
-      <h1 className="bg-richChocolate font-pacifico text-creamyVanilla text-center text-custom text-4xl p-3">What&apos;s for dinner?</h1>
+      <h1 className="bg-richChocolate font-pacifico text-creamyVanilla text-center text-custom text-4xl p-3">
+        What&apos;s for dinner?
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
         {restaurantLunch?.map((data, index) => (
           <Lunch key={index} {...data} />
