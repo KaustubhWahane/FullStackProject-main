@@ -15,6 +15,7 @@ function SignInPage() {
 
     try {
       const response = await axios.post('http://localhost:5000/signin', formData);
+
       console.log(response.data);
 
       navigate('/');
