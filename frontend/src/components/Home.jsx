@@ -119,21 +119,23 @@ function Home() {
           </button>
         </div>
         <div className="flex flex-wrap justify-around items-center">
-          {mealData?.map((meal) => (
-            <div key={meal?.idMeal} className="border border-black p-4 m-4 w-64 h-96 rounded-lg flex flex-col items-center">
-              <div className="w-full">
-                <img src={meal?.strMealThumb} alt={meal?.strMeal} className="w-full rounded-t-lg" />
-              </div>
-              <div className="mt-2 font-bold text-creamyVanilla">{meal?.strMeal}</div>
-              <div className="text-creamyVanilla">{meal?.strCategory}</div>
-              <button
-                className="mt-2 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded"
-                onClick={() => addToCart(meal)}
-              >
-                Add
-              </button>
-            </div>
-          ))}
+         {mealData?.filter(meal => meal.strMeal?.trim().toLowerCase() !== 'kuurdak').map((meal) => (
+    <div key={meal?.idMeal} className="border border-black p-4 m-4 w-64 h-96 rounded-lg flex flex-col items-center">
+      <div className="w-full">
+        <img src={meal?.strMealThumb} alt={meal?.strMeal} className="w-full rounded-t-lg" />
+      </div>
+      <div className="mt-2 font-bold text-creamyVanilla">{meal?.strMeal}</div>
+      <div className="text-creamyVanilla">{meal?.strCategory}</div>
+      <button
+        className="mt-2 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded"
+        onClick={() => addToCart(meal)}
+      >
+        Add
+      </button>
+    </div>
+  ))}
+
+          
         </div>
       </div>
 
