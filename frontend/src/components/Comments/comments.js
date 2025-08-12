@@ -1,7 +1,7 @@
 export const commentsData = [
     {
       id: 1,
-      author: 'Sakshi Singh',
+      author: 'Rohit Sharma',
       text: 'This website really helped me to choose my soulmate!! (Schezwan Manchurian Noodles)',
     },
     {
