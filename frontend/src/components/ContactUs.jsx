@@ -32,7 +32,7 @@ function ContactUs() {
   };
 
   return (
-    <div id="contact">
+    <div id="contact" className='bg-yellow-200'>
     <div className="flex justify-center">
       <div className="mt-8 bg-richChocolate py-8 px-4 w-50">
         <h2 className="text-xl font-semibold text-creamyVanilla mb-4">Leave a Feedback</h2>

@@ -29,43 +29,49 @@ function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="p-8 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold mb-4">Sign In</h2>
-        <form onSubmit={handleSubmit} className="">
+    <div className="bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 min-h-screen flex items-center justify-center px-4">
+      <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-xl shadow-xl max-w-md w-full p-10">
+        <h2 className="text-4xl font-extrabold mb-6 text-center text-indigo-900">Sign In</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label> {/* Change htmlFor and label text */}
+            <label htmlFor="name" className="block text-sm font-semibold text-indigo-700">Name</label>
             <input
               type="text" 
               id="name"
               name="name" 
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-3 border border-indigo-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
               autoComplete="username"
               required
+              placeholder="Enter your name"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-sm font-semibold text-indigo-700">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-3 border border-indigo-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
               autoComplete="current-password"
+              placeholder="Enter your password"
             />
           </div>
-          <div className="mt-3"> 
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Sign In</button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 shadow-md"
+          >
+            Sign In
+          </button>
         </form>
       </div>
     </div>
   );
 }
+
 
 export default SignInPage;
