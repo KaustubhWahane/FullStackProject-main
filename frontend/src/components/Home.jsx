@@ -113,7 +113,7 @@ function Home() {
           <button
             onClick={handleSubmit}
             disabled={cartItems.length === 0}
-            className="mt-4 bg-richChocolate hover:bg-warmBeige text-creamyVanilla px-4 py-2 rounded disabled:opacity-50"
+            className="mt-4 bg-richChocolate hover:bg-warmBeige text-creamyVanilla font-pacifico px-4 py-2 rounded disabled:opacity-50"
           >
             Submit Order
           </button>
