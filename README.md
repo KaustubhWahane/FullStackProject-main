@@ -97,4 +97,4 @@ The backend exposes the following routes (based on `server.js`):
 *   **Environment Variables:** For production, sensitive information like database URIs should be moved to a `.env` file.
 
 ---
-Created by Abhishek
+Created by Kaustubh
